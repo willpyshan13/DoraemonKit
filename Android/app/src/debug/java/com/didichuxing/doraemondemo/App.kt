@@ -6,6 +6,7 @@ import android.content.Context
 import androidx.multidex.MultiDex
 import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.DoraemonKitRpc
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
@@ -21,7 +22,7 @@ class App : Application() {
 
         //测试环境:a49842eeebeb1989b3f9565eb12c276b
         //线上环境:749a0600b5e48dd77cf8ee680be7b1b7
-        DoraemonKit.disableUpload()
+        DoraemonKitRpc.disableUpload()
         //是否显示入口icon
         // DoraemonKit.setAwaysShowMainIcon(false);
 
@@ -35,7 +36,7 @@ class App : Application() {
         mapKits.put("业务专区1", mutableListOf(DemoKit()))
         mapKits.put("业务专区2", mutableListOf(DemoKit()))
 
-        DoraemonKit.install(this, mapKits = mapKits, productId = "749a0600b5e48dd77cf8ee680be7b1b7")
+        DoraemonKitRpc.install(this, mapKits, "749a0600b5e48dd77cf8ee680be7b1b7")
         val config = ImagePipelineConfig.newBuilder(this)
                 .setDiskCacheEnabled(false)
                 .build()

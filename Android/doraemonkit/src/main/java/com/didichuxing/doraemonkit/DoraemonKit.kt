@@ -16,22 +16,22 @@ object DoraemonKit {
 
     @JvmStatic
     fun install(app: Application) {
-        DoraemonKitReal.install(app, linkedMapOf(), mutableListOf(), "")
+        install(app, linkedMapOf(), mutableListOf(), "")
     }
 
     @JvmStatic
     fun install(app: Application, productId: String) {
-        DoraemonKitReal.install(app, linkedMapOf(), mutableListOf(), productId)
+        install(app, linkedMapOf(), mutableListOf(), productId)
     }
 
     @JvmStatic
     fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, productId: String) {
-        DoraemonKitReal.install(app, mapKits, mutableListOf(), productId)
+        install(app, mapKits, mutableListOf(), productId)
     }
 
     @JvmStatic
     fun install(app: Application, listKits: MutableList<AbstractKit>, productId: String) {
-        DoraemonKitReal.install(app, linkedMapOf(), listKits, productId)
+        install(app, linkedMapOf(), listKits, productId)
     }
 
     /**

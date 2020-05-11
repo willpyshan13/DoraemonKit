@@ -4,33 +4,33 @@ import android.app.Application
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
+import com.didichuxing.foundation.net.rpc.http.PlatformHttpHook
 
 /**
  * Created by jintai on 2018/6/22.
  */
 object DoraemonKitRpc {
     var APPLICATION: Application? = null
-    private const val TAG = "DoraemonKitRpc"
 
 
     @JvmStatic
     fun install(app: Application) {
-        DoraemonKitReal.install(app, linkedMapOf(), mutableListOf(), "")
+        install(app, linkedMapOf(), mutableListOf(), "")
     }
 
     @JvmStatic
     fun install(app: Application, productId: String) {
-        DoraemonKitReal.install(app, linkedMapOf(), mutableListOf(), productId)
+        install(app, linkedMapOf(), mutableListOf(), productId)
     }
 
     @JvmStatic
     fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, productId: String) {
-        DoraemonKitReal.install(app, mapKits, mutableListOf(), productId)
+        install(app, mapKits, mutableListOf(), productId)
     }
 
     @JvmStatic
     fun install(app: Application, listKits: MutableList<AbstractKit>, productId: String) {
-        DoraemonKitReal.install(app, linkedMapOf(), listKits, productId)
+        install(app, linkedMapOf(), listKits, productId)
     }
 
     /**
