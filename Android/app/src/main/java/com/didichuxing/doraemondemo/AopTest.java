@@ -1,9 +1,5 @@
 package com.didichuxing.doraemondemo;
 
-import com.didichuxing.doraemonkit.aop.OkHttpHook;
-
-import okhttp3.OkHttpClient;
-
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -14,9 +10,18 @@ import okhttp3.OkHttpClient;
  * ================================================
  */
 public class AopTest {
+    private static final String TAG = "AopTest";
+
+//    public void test() {
+//        //MethodStackUtil.getInstance().recodeObjectMethodCostStart(1, "AopTest", "test", "desc", this);
+//        Log.i(TAG, "================");
+//        //MethodStackUtil.getInstance().recodeObjectMethodCostEnd(2, "AopTest", "test", "desc", this);
+//    }
 
 
-    public void test(OkHttpClient okHttpClient) {
-        OkHttpHook.performOkhttpOneParamBuilderInit(this, okHttpClient);
+    public void AopTest() {
+
     }
+
+
 }
