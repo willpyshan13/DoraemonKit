@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.core;
+package com.didichuxing.doraemonkit.kit.core
 
 /**
  * ================================================
@@ -9,6 +9,4 @@ package com.didichuxing.doraemonkit.kit.core;
  * 修订历史：
  * ================================================
  */
-public interface DokitViewInterface {
-
-}
+internal interface DokitViewInterface

@@ -157,7 +157,7 @@ object DoraemonKitReal {
 
         //addSystemKitForTest(app)
         //初始化悬浮窗管理类
-        DokitViewManager.getInstance().init(app)
+        DokitViewManager.instance.init(app)
         //上传app基本信息便于统计
         if (sEnableUpload) {
             try {
@@ -511,7 +511,7 @@ object DoraemonKitReal {
         if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
             return
         }
-        DokitViewManager.getInstance().attachMainIcon()
+        DokitViewManager.instance.attachMainIcon()
         DokitConstant.MAIN_ICON_HAS_SHOW = true
     }
 
@@ -526,17 +526,17 @@ object DoraemonKitReal {
      * 直接显示工具面板页面
      */
     fun showToolPanel() {
-        DokitViewManager.getInstance().attachToolPanel()
+        DokitViewManager.instance.attachToolPanel()
     }
 
     fun hideToolPanel() {
-        DokitViewManager.getInstance().detachToolPanel()
+        DokitViewManager.instance.detachToolPanel()
     }
 
     fun hide() {
         DokitConstant.MAIN_ICON_HAS_SHOW = false
         DokitConstant.AWAYS_SHOW_MAIN_ICON = false
-        DokitViewManager.getInstance().detachMainIcon()
+        DokitViewManager.instance.detachMainIcon()
     }
 
     /**

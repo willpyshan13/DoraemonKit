@@ -27,7 +27,7 @@ class DemoKit : AbstractKit() {
     override fun onClick(context: Context?) {
         val dokitIntent = DokitIntent(DemoDokitView::class.java)
         dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE
-        DokitViewManager.getInstance().attach(dokitIntent)
+        DokitViewManager.instance.attach(dokitIntent)
     }
 
     override fun onAppInit(context: Context?) {

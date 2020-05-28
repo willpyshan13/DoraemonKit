@@ -78,10 +78,10 @@ public class DokitDbManager<T extends AbsMockApiBean> {
             @Override
             public List<T> doInBackground() throws Throwable {
                 DokitDatabase db = DokitViewManager.getInstance().getDb();
-                if (db != null && db.mockApiDao() != null) {
+                if (db.mockApiDao() != null) {
                     return (List<T>) db.mockApiDao().getAllInterceptApi();
                 } else {
-                    throw new NullPointerException("mDb == null || mDb.mockApiDao()");
+                    throw new NullPointerException("db.mockApiDao()");
                 }
             }
 
