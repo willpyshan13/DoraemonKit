@@ -128,7 +128,6 @@ internal class SystemDokitViewManager(val mContext: Context) : DokitViewManagerI
         val intent = DokitIntent(MainIconDokitView::class.java)
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE
         instance.attach(intent)
-        DokitConstant.MAIN_ICON_HAS_SHOW = true
     }
 
     override fun onActivityCreate(activity: Activity?) {
@@ -173,7 +172,6 @@ internal class SystemDokitViewManager(val mContext: Context) : DokitViewManagerI
                 val intent = DokitIntent(MainIconDokitView::class.java)
                 intent.mode = DokitIntent.MODE_SINGLE_INSTANCE
                 instance.attach(intent)
-                DokitConstant.MAIN_ICON_HAS_SHOW = true
             }
         }
     }

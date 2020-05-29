@@ -103,13 +103,11 @@ internal class NormalDokitViewManager(val mContext: Context) : DokitViewManagerI
         //倒计时DokitView
         attachCountDownDokitView(activity)
         if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
-            DokitConstant.MAIN_ICON_HAS_SHOW = false
             return
         }
         val dokitIntent = DokitIntent(MainIconDokitView::class.java)
         dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE
         attach(dokitIntent)
-        DokitConstant.MAIN_ICON_HAS_SHOW = true
     }
 
     /**
@@ -128,12 +126,9 @@ internal class NormalDokitViewManager(val mContext: Context) : DokitViewManagerI
 //            }
             //是否过滤掉 入口icon
             if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && dokitViewInfo.absDokitViewClass == MainIconDokitView::class.java) {
-                DokitConstant.MAIN_ICON_HAS_SHOW = false
                 continue
             }
-            if (dokitViewInfo.absDokitViewClass == MainIconDokitView::class.java) {
-                DokitConstant.MAIN_ICON_HAS_SHOW = true
-            }
+
             val dokitIntent = DokitIntent(dokitViewInfo.absDokitViewClass)
             dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE
             dokitIntent.bundle = dokitViewInfo.bundle
@@ -187,11 +182,7 @@ internal class NormalDokitViewManager(val mContext: Context) : DokitViewManagerI
 //                }
                 //是否过滤掉 入口icon
                 if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && globalSingleDokitViewInfo.absDokitViewClass == MainIconDokitView::class.java) {
-                    DokitConstant.MAIN_ICON_HAS_SHOW = false
                     continue
-                }
-                if (globalSingleDokitViewInfo.absDokitViewClass == MainIconDokitView::class.java) {
-                    DokitConstant.MAIN_ICON_HAS_SHOW = true
                 }
 
                 //LogHelper.i(TAG, " activity  resume==>" + activity.getClass().getSimpleName() + "  dokitView==>" + globalSingleDokitViewInfo.getTag());
@@ -530,7 +521,7 @@ internal class NormalDokitViewManager(val mContext: Context) : DokitViewManagerI
     }
 
     private fun createGlobalSingleDokitViewInfo(dokitView: AbsDokitView): GlobalSingleDokitViewInfo {
-        return GlobalSingleDokitViewInfo(dokitView.javaClass, dokitView.tag, DokitIntent.MODE_SINGLE_INSTANCE, dokitView.bundle!!)
+        return GlobalSingleDokitViewInfo(dokitView.javaClass, dokitView.tag, DokitIntent.MODE_SINGLE_INSTANCE, dokitView.bundle)
     }
 
     companion object {

@@ -53,13 +53,15 @@ object HandlerHooker {
         if (!acc) {
             handlerCallbackField.isAccessible = true
         }
-        val oldCallbackObj = handlerCallbackField[handlerObj] as Handler.Callback
-        //自定义handlerCallback
-        val proxyMHCallback = ProxyHandlerCallback(oldCallbackObj, handlerObj)
-        //将自定义callback注入到activityThread的mH对象中 后期回调会走ProxyHandlerCallback
-        handlerCallbackField[handlerObj] = proxyMHCallback
-        if (!acc) {
-            handlerCallbackField.isAccessible = acc
+        handlerCallbackField[handlerObj]?.let {
+            val oldCallbackObj = handlerCallbackField[handlerObj] as Handler.Callback
+            //自定义handlerCallback
+            val proxyMHCallback = ProxyHandlerCallback(oldCallbackObj, handlerObj)
+            //将自定义callback注入到activityThread的mH对象中 后期回调会走ProxyHandlerCallback
+            handlerCallbackField[handlerObj] = proxyMHCallback
+            if (!acc) {
+                handlerCallbackField.isAccessible = acc
+            }
         }
     }
 }

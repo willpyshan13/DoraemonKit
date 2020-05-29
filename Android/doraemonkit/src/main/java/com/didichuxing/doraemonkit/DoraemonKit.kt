@@ -92,7 +92,7 @@ object DoraemonKit {
 
     @JvmStatic
     val isShow: Boolean
-        get() = DoraemonKitReal.isShow
+        get() = DoraemonKitReal.isMainIconShow
 
     @JvmStatic
     fun setDebug(debug: Boolean) {

@@ -64,7 +64,6 @@ internal class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCa
             recordActivityLifeCycleStatus(it, LIFE_CYCLE_STATUS_RESUME)
             //记录页面层级
             if (it.javaClass.canonicalName != "com.didichuxing.doraemonkit.kit.base.UniversalActivity") {
-                //TODO("功能需要实现")
                 //recordActivityUiLevel(activity)
             }
             //如果是leakCanary页面不进行添加

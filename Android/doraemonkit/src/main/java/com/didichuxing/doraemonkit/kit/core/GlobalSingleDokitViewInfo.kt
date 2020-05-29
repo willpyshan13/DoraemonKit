@@ -15,7 +15,7 @@ import android.os.Bundle
 internal data class GlobalSingleDokitViewInfo(val absDokitViewClass: Class<out AbsDokitView?>,
                                               val tag: String,
                                               val mode: Int,
-                                              val bundle: Bundle)
+                                              val bundle: Bundle?)
 
 
 

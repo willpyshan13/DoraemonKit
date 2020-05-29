@@ -28,11 +28,11 @@ import com.didichuxing.doraemonkit.kit.dataclean.DataCleanKit
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugKit
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerKit
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockKit
-import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager
 import com.didichuxing.doraemonkit.kit.health.HealthKit
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureKit
 import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit
 import com.didichuxing.doraemonkit.kit.loginfo.LogInfoKit
+import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostKit
 import com.didichuxing.doraemonkit.kit.network.MockKit
 import com.didichuxing.doraemonkit.kit.network.NetworkKit
@@ -512,12 +512,11 @@ object DoraemonKitReal {
             return
         }
         DokitViewManager.instance.attachMainIcon()
-        DokitConstant.MAIN_ICON_HAS_SHOW = true
     }
 
     fun show() {
         DokitConstant.AWAYS_SHOW_MAIN_ICON = true
-        if (!isShow) {
+        if (!isMainIconShow) {
             showMainIcon()
         }
     }
@@ -534,7 +533,6 @@ object DoraemonKitReal {
     }
 
     fun hide() {
-        DokitConstant.MAIN_ICON_HAS_SHOW = false
         DokitConstant.AWAYS_SHOW_MAIN_ICON = false
         DokitViewManager.instance.detachMainIcon()
     }
@@ -546,6 +544,9 @@ object DoraemonKitReal {
         sEnableUpload = false
     }
 
-    val isShow: Boolean
-        get() = DokitConstant.MAIN_ICON_HAS_SHOW
+    /**
+     * 主icon 是否已经处于显示状态
+     */
+    val isMainIconShow: Boolean
+        get() = DokitViewManager.instance.getDokitView(ActivityUtils.getTopActivity(), MainIconDokitView::class.java.simpleName) != null
 }

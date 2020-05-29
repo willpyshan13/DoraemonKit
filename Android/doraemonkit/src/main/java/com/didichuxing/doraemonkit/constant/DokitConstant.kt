@@ -66,11 +66,7 @@ object DokitConstant {
     @JvmField
     var AWAYS_SHOW_MAIN_ICON = true
 
-    /**
-     * icon主入口是否处于显示状态
-     */
-    @JvmField
-    var MAIN_ICON_HAS_SHOW = false
+
 
     /**
      * 流量监控白名单
