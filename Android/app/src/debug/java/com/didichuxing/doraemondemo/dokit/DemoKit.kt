@@ -25,9 +25,7 @@ class DemoKit : AbstractKit() {
         get() = R.mipmap.dk_sys_info
 
     override fun onClick(context: Context?) {
-        val dokitIntent = DokitIntent(DemoDokitView::class.java)
-        dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE
-        DokitViewManager.instance.attach(dokitIntent)
+        DokitViewManager.instance.attach(DokitIntent(DemoDokitView::class.java))
     }
 
     override fun onAppInit(context: Context?) {

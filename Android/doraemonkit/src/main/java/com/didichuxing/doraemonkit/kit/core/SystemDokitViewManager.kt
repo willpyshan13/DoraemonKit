@@ -8,7 +8,6 @@ import com.didichuxing.doraemonkit.DoraemonKit.isShow
 import com.didichuxing.doraemonkit.DoraemonKit.show
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager.Companion.instance
-import com.didichuxing.doraemonkit.kit.health.CountDownDokitView
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo
 import com.didichuxing.doraemonkit.util.SystemUtil
@@ -26,10 +25,10 @@ internal class SystemDokitViewManager(val mContext: Context) : DokitViewManagerI
     private val mWindowManager: WindowManager? = instance.windowManager
 
     private val mDokitViews: MutableList<AbsDokitView> by lazy {
-        mutableListOf()
+        mutableListOf<AbsDokitView>()
     }
     private val mListeners: MutableList<DokitViewManager.DokitViewAttachedListener> by lazy {
-        mutableListOf()
+        mutableListOf<DokitViewManager.DokitViewAttachedListener>()
     }
 
     /**
@@ -68,33 +67,38 @@ internal class SystemDokitViewManager(val mContext: Context) : DokitViewManagerI
      * @param activity
      */
     override fun resumeAndAttachDokitViews(activity: Activity?) {
-        if (activity is UniversalActivity) {
-            val countDownDokitView = getDokitView(activity, CountDownDokitView::class.java.simpleName)
-            if (countDownDokitView != null) {
-                instance.detach(CountDownDokitView::class.java.simpleName)
+        //TODO("功能待实现")
+//        if (activity is UniversalActivity) {
+//            val countDownDokitView = getDokitView(activity, CountDownDokitView::class.java.simpleName)
+//            if (countDownDokitView != null) {
+//                instance.detach(CountDownDokitView::class.java.simpleName)
+//            }
+//            return
+//        }
+
+        activity?.let {
+            //app启动
+            if (SystemUtil.isOnlyFirstLaunchActivity(activity)) {
+                onMainActivityCreate(activity)
             }
-            return
-        }
-        //app启动
-        if (SystemUtil.isOnlyFirstLaunchActivity(activity)) {
-            onMainActivityCreate(activity)
-        }
-        val activityLifecycleInfo = DokitConstant.ACTIVITY_LIFECYCLE_INFOS[activity!!.javaClass.canonicalName]
-        //新建Activity
-        if (activityLifecycleInfo != null && activityLifecycleInfo.activityLifeCycleCount == ActivityLifecycleInfo.ACTIVITY_LIFECYCLE_CREATE2RESUME) {
-            onActivityCreate(activity)
+            val activityLifecycleInfo = DokitConstant.ACTIVITY_LIFECYCLE_INFOS[activity!!.javaClass.canonicalName]
+            //新建Activity
+            if (activityLifecycleInfo != null && activityLifecycleInfo.activityLifeCycleCount == ActivityLifecycleInfo.ACTIVITY_LIFECYCLE_CREATE2RESUME) {
+                onActivityCreate(activity)
+            }
+
+            //activity resume
+            if (activityLifecycleInfo != null && activityLifecycleInfo.activityLifeCycleCount > ActivityLifecycleInfo.ACTIVITY_LIFECYCLE_CREATE2RESUME) {
+                onActivityResume(activity)
+            }
+
+            //生命周期回调
+            val dokitViewMap: Map<String, AbsDokitView?>? = getDokitViews(activity)
+            for (absDokitView in dokitViewMap!!.values) {
+                absDokitView!!.onResume()
+            }
         }
 
-        //activity resume
-        if (activityLifecycleInfo != null && activityLifecycleInfo.activityLifeCycleCount > ActivityLifecycleInfo.ACTIVITY_LIFECYCLE_CREATE2RESUME) {
-            onActivityResume(activity)
-        }
-
-        //生命周期回调
-        val dokitViewMap: Map<String, AbsDokitView?>? = getDokitViews(activity)
-        for (absDokitView in dokitViewMap!!.values) {
-            absDokitView!!.onResume()
-        }
     }
 
     /**
@@ -107,9 +111,10 @@ internal class SystemDokitViewManager(val mContext: Context) : DokitViewManagerI
         if (activity is UniversalActivity) {
             return
         }
-        val dokitIntent = DokitIntent(CountDownDokitView::class.java)
-        dokitIntent.mode = DokitIntent.MODE_ONCE
-        attach(dokitIntent)
+        //TODO("功能待实现")
+//        val dokitIntent = DokitIntent(CountDownDokitView::class.java)
+//        dokitIntent.mode = DokitIntent.MODE_ONCE
+//        attach(dokitIntent)
     }
 
     override fun onMainActivityCreate(activity: Activity?) {
@@ -131,32 +136,34 @@ internal class SystemDokitViewManager(val mContext: Context) : DokitViewManagerI
         if (DokitConstant.AWAYS_SHOW_MAIN_ICON && !isShow) {
             show()
         }
+        //TODO("功能待实现")
         //如果倒计时浮标没显示则重新添加
-        val countDownDokitView = getDokitView(activity, CountDownDokitView::class.java.simpleName)
-        if (countDownDokitView == null) {
-            if (activity is UniversalActivity) {
-                return
-            }
-            attachCountDownDokitView(activity)
-        } else {
-            if (activity is UniversalActivity) {
-                instance.detach(CountDownDokitView::class.java.simpleName)
-            } else {
-                //重置倒计时
-                (countDownDokitView as CountDownDokitView).resetTime()
-            }
-        }
+//        val countDownDokitView = getDokitView(activity, CountDownDokitView::class.java.simpleName)
+//        if (countDownDokitView == null) {
+//            if (activity is UniversalActivity) {
+//                return
+//            }
+//            attachCountDownDokitView(activity)
+//        } else {
+//            if (activity is UniversalActivity) {
+//                instance.detach(CountDownDokitView::class.java.simpleName)
+//            } else {
+//                //重置倒计时
+//                (countDownDokitView as CountDownDokitView).resetTime()
+//            }
+//        }
     }
 
     override fun onActivityResume(activity: Activity?) {
         //移除倒计时浮标
-        val countDownDokitView = getDokitView(activity, CountDownDokitView::class.java.simpleName)
-        if (countDownDokitView == null) {
-            attachCountDownDokitView(activity)
-        } else {
-            //重置倒计时
-            (countDownDokitView as CountDownDokitView).resetTime()
-        }
+        //TODO("功能待实现")
+//        val countDownDokitView = getDokitView(activity, CountDownDokitView::class.java.simpleName)
+//        if (countDownDokitView == null) {
+//            attachCountDownDokitView(activity)
+//        } else {
+//            //重置倒计时
+//            (countDownDokitView as CountDownDokitView).resetTime()
+//        }
 
         //判断是否存在主入口icon
         val dokitViews: Map<String, AbsDokitView?>? = getDokitViews(activity)

@@ -5,9 +5,6 @@ import android.content.Context;
 
 import androidx.multidex.MultiDex;
 
-import com.didichuxing.doraemondemo.dokit.DemoKit;
-import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
@@ -27,8 +24,8 @@ public class AopApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        List<AbstractKit> kits = new ArrayList<>();
-        kits.add(new DemoKit());
+//        List<AbstractKit> kits = new ArrayList<>();
+//        kits.add(new DemoKit());
         //测试环境:a49842eeebeb1989b3f9565eb12c276b
         //线上环境:749a0600b5e48dd77cf8ee680be7b1b7
         //new AopTest().test();
@@ -39,8 +36,8 @@ public class AopApp extends Application {
 
         //是否显示入口icon
         // DoraemonKit.setAwaysShowMainIcon(false);
-        DoraemonKit.disableUpload();
-        DoraemonKit.install(this, "749a0600b5e48dd77cf8ee680be7b1b7");
+       // DoraemonKit.disableUpload();
+       // DoraemonKit.install(this, "749a0600b5e48dd77cf8ee680be7b1b7");
         //DoraemonKit.install(this, kits, "70e78c27f9174d68668d8a66a2b66483")
     }
 

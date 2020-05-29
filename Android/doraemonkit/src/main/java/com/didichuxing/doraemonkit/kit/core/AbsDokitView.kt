@@ -511,7 +511,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener, DokitV
         }
 
 
-    protected fun <T : View?> findViewById(@IdRes id: Int): T {
+    protected fun <T : View> findViewById(@IdRes id: Int): T {
         return this.rootView!!.findViewById(id)
     }
 

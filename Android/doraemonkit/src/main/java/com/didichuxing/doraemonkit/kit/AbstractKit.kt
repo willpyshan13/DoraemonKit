@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
 import com.blankj.utilcode.util.ActivityUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity
 
@@ -24,11 +25,19 @@ abstract class AbstractKit : IKit {
      * @param context
      * @param fragmentIndex
      */
-    fun startUniversalActivity(context: Context, fragmentIndex: Int) {
-        val intent = Intent(context, UniversalActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        intent.putExtra(BundleKey.FRAGMENT_INDEX, fragmentIndex)
-        context.startActivity(intent)
+    fun startUniversalActivity(context: Context?, fragmentIndex: Int) {
+        context?.let {
+            val intent = Intent(context, UniversalActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra(BundleKey.FRAGMENT_INDEX, fragmentIndex)
+            context.startActivity(intent)
+        }
+
+    }
+
+
+    fun kotlinTip() {
+        ToastUtils.showShort("请参考java工程用kotlin实现该功能")
     }
 
     /**

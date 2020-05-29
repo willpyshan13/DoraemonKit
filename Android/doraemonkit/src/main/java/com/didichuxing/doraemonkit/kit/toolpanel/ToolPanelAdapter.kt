@@ -9,13 +9,13 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.BarUtils
+import com.blankj.utilcode.util.SPUtils
 import com.didichuxing.doraemonkit.BuildConfig
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.util.DokitUtil
-import com.didichuxing.doraemonkit.util.SharedPrefsUtil
 import com.didichuxing.doraemonkit.widget.bravh.BaseMultiItemQuickAdapter
 import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
 
@@ -67,10 +67,10 @@ class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?)
                 radioGroup.setOnCheckedChangeListener { _, checkedId ->
                     if (checkedId == R.id.rb_normal) {
                         //选中normal
-                        SharedPrefsUtil.putString(SharedPrefsKey.FLOAT_START_MODE, "normal")
+                        SPUtils.getInstance().put(SharedPrefsKey.FLOAT_START_MODE, "normal")
                     } else {
                         //选中系统
-                        SharedPrefsUtil.putString(SharedPrefsKey.FLOAT_START_MODE, "system")
+                        SPUtils.getInstance().put(SharedPrefsKey.FLOAT_START_MODE, "system")
                     }
                 }
 
@@ -90,7 +90,7 @@ class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?)
                     }, 500)
                 }
 
-                val floatMode = SharedPrefsUtil.getString(SharedPrefsKey.FLOAT_START_MODE, "normal")
+                val floatMode = SPUtils.getInstance().getString(SharedPrefsKey.FLOAT_START_MODE, "normal")
                 if (floatMode == "normal") {
                     rbNormal.isChecked = true
                 } else {

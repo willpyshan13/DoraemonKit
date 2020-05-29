@@ -1,9 +1,9 @@
 package com.didichuxing.doraemonkit
 
 import android.app.Application
+import android.content.Context
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
 
 /**
  * Created by jint on 2018/6/22.
@@ -52,7 +52,7 @@ object DoraemonKit {
     }
 
     @JvmStatic
-    fun setWebDoorCallback(callback: WebDoorCallback?) {
+    fun setWebDoorCallback(callback: (context: Context, url: String?) -> Unit) {
         DoraemonKitReal.setWebDoorCallback(callback)
     }
 

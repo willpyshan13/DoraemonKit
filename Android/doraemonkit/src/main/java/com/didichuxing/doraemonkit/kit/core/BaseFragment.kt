@@ -22,8 +22,7 @@ import com.didichuxing.doraemonkit.widget.dialog.UniversalDialogFragment
  * @date 2018/10/26
  */
 abstract class BaseFragment : Fragment() {
-    @JvmField
-    var TAG = this.javaClass.simpleName
+    val TAG = this.javaClass.simpleName
     private var mRootView: View? = null
     private var mContainer = 0
 
@@ -33,7 +32,7 @@ abstract class BaseFragment : Fragment() {
     @LayoutRes
     protected abstract fun onRequestLayout(): Int
 
-    fun <T : View?> findViewById(@IdRes id: Int): T {
+    fun <T : View> findViewById(@IdRes id: Int): T {
         return mRootView!!.findViewById(id)
     }
 

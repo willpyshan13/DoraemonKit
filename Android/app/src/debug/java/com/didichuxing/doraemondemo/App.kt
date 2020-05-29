@@ -9,7 +9,6 @@ import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
-import java.util.*
 
 /**
  * @author jint
@@ -21,7 +20,7 @@ class App : Application() {
 
         //测试环境:a49842eeebeb1989b3f9565eb12c276b
         //线上环境:749a0600b5e48dd77cf8ee680be7b1b7
-        DoraemonKit.disableUpload()
+        //DoraemonKit.disableUpload()
         //是否显示入口icon
         // DoraemonKit.setAwaysShowMainIcon(false);
 

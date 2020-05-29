@@ -14,7 +14,6 @@ import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.constant.FragmentIndex
-import com.didichuxing.doraemonkit.datapick.DataPickManager
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
@@ -31,15 +30,15 @@ class ToolPanelDokitView : AbsDokitView() {
     private lateinit var mAdapter: ToolPanelAdapter
     private var mKits: MutableList<KitWrapItem> = mutableListOf()
 
-    override fun onCreate(context: Context) {
+    override fun onCreate(context: Context?) {
 
     }
 
-    override fun onCreateView(context: Context, view: FrameLayout): View {
+    override fun onCreateView(context: Context?, view: FrameLayout?): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_tool_panel, view, false)
     }
 
-    override fun onViewCreated(view: FrameLayout) {
+    override fun onViewCreated(view: FrameLayout?) {
         generateKits()
         initView()
     }
@@ -121,12 +120,13 @@ class ToolPanelDokitView : AbsDokitView() {
                 DokitViewManager.instance.detachToolPanel()
                 multiKitItem.kit?.onClick(ActivityUtils.getTopActivity())
                 try {
+                    //TODO("功能待实现")
                     //添加埋点
-                    if (multiKitItem.kit?.isInnerKit!! && !TextUtils.isEmpty(multiKitItem.kit.innerKitId())) {
-                        DataPickManager.getInstance().addData(multiKitItem.kit.innerKitId())
-                    } else {
-                        DataPickManager.getInstance().addData("dokit_sdk_business_ck")
-                    }
+//                    if (multiKitItem.kit?.isInnerKit!! && !TextUtils.isEmpty(multiKitItem.kit.innerKitId())) {
+//                        DataPickManager.getInstance().addData(multiKitItem.kit.innerKitId())
+//                    } else {
+//                        DataPickManager.getInstance().addData("dokit_sdk_business_ck")
+//                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -139,11 +139,14 @@ class ToolPanelDokitView : AbsDokitView() {
     }
 
 
-    override fun initDokitViewLayoutParams(params: DokitViewLayoutParams) {
-        params.x = 0
-        params.y = 0
-        params.width = DokitViewLayoutParams.MATCH_PARENT
-        params.height = DokitViewLayoutParams.MATCH_PARENT
+    override fun initDokitViewLayoutParams(params: DokitViewLayoutParams?) {
+        params?.let {
+            params.x = 0
+            params.y = 0
+            params.width = DokitViewLayoutParams.MATCH_PARENT
+            params.height = DokitViewLayoutParams.MATCH_PARENT
+        }
+
     }
 
     override fun onBackPressed(): Boolean {

@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit
 
 import android.app.Application
+import android.content.Context
 import android.os.Build
 import android.text.TextUtils
 import android.util.Log
@@ -12,16 +13,14 @@ import com.blankj.utilcode.util.NetworkUtils.OnNetworkStatusChangedListener
 import com.blankj.utilcode.util.ThreadUtils.SimpleTask
 import com.didichuxing.doraemonkit.aop.OkHttpHook
 import com.didichuxing.doraemonkit.config.GlobalConfig
-import com.didichuxing.doraemonkit.config.GpsMockConfig
-import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey
-import com.didichuxing.doraemonkit.datapick.DataPickManager
+import com.didichuxing.doraemonkit.hook.HandlerHooker
+import com.didichuxing.doraemonkit.hook.ServiceHookManager
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerKit
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerKit
-import com.didichuxing.doraemonkit.kit.core.DokitIntent
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureKit
@@ -30,26 +29,20 @@ import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugKit
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerKit
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockKit
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager
-import com.didichuxing.doraemonkit.kit.gpsmock.ServiceHookManager
-import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil
 import com.didichuxing.doraemonkit.kit.health.HealthKit
-import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.BigFileBean
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureKit
 import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit
 import com.didichuxing.doraemonkit.kit.loginfo.LogInfoKit
-import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostKit
 import com.didichuxing.doraemonkit.kit.network.MockKit
 import com.didichuxing.doraemonkit.kit.network.NetworkKit
-import com.didichuxing.doraemonkit.kit.network.NetworkManager
-import com.didichuxing.doraemonkit.kit.parameter.cpu.CpuKit
-import com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfoKit
-import com.didichuxing.doraemonkit.kit.parameter.ram.RamKit
+import com.didichuxing.doraemonkit.kit.performance.cpu.CpuKit
+import com.didichuxing.doraemonkit.kit.performance.fps.FrameInfoKit
+import com.didichuxing.doraemonkit.kit.performance.ram.RamKit
 import com.didichuxing.doraemonkit.kit.sysinfo.DevelopmentPageKit
 import com.didichuxing.doraemonkit.kit.sysinfo.LocalLangKit
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoKit
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterKit
-import com.didichuxing.doraemonkit.kit.timecounter.instrumentation.HandlerHooker
 import com.didichuxing.doraemonkit.kit.toolpanel.KitBean
 import com.didichuxing.doraemonkit.kit.toolpanel.KitGroupBean
 import com.didichuxing.doraemonkit.kit.toolpanel.KitWrapItem
@@ -59,11 +52,9 @@ import com.didichuxing.doraemonkit.kit.viewcheck.ViewCheckerKit
 import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkKit
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorKit
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
-import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
 import com.didichuxing.doraemonkit.util.DokitUtil
 import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil
 import com.didichuxing.doraemonkit.util.LogHelper
-import com.didichuxing.doraemonkit.util.SharedPrefsUtil
 import java.io.File
 import java.util.*
 
@@ -93,7 +84,7 @@ object DoraemonKitReal {
     fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, listKits: MutableList<AbstractKit>, productId: String) {
         pluginConfig()
         DokitConstant.PRODUCT_ID = productId
-        DokitConstant.APP_HEALTH_RUNNING = GlobalConfig.getAppHealth()
+        DokitConstant.APP_HEALTH_RUNNING = GlobalConfig.appHealth
 
         //赋值
         APPLICATION = app
@@ -103,19 +94,20 @@ object DoraemonKitReal {
         if (!ProcessUtils.isMainProcess()) {
             return
         }
-        val strDokitMode = SharedPrefsUtil.getString(SharedPrefsKey.FLOAT_START_MODE, "normal")
+        val strDokitMode = SPUtils.getInstance().getString(SharedPrefsKey.FLOAT_START_MODE, "normal")
         DokitConstant.IS_NORMAL_FLOAT_MODE = strDokitMode == "normal"
         //初始化第三方工具
         installLeakCanary(app)
         checkLargeImgIsOpen()
         registerNetworkStatusChangedListener()
         startAppHealth()
-        checkGPSMock()
+
+        //checkGPSMock() TODO("功能待实现")
 
         //解锁系统隐藏api限制权限以及hook Instrumentation
         HandlerHooker.doHook(app)
         //hook WIFI GPS Telephony系统服务
-        ServiceHookManager.getInstance().install(app)
+        ServiceHookManager.instance.install(app)
 
         //OkHttp 拦截器 注入
         OkHttpHook.installInterceptor()
@@ -168,7 +160,8 @@ object DoraemonKitReal {
         }
 
         //上传埋点
-        DataPickManager.getInstance().postData()
+
+        //DataPickManager.getInstance().postData() TODO("功能待实现")
     }
 
 
@@ -333,13 +326,14 @@ object DoraemonKitReal {
      * 插件会在当前方法中插入代码
      */
     private fun pluginConfig() {}
-    private fun checkGPSMock() {
-        if (GpsMockConfig.isGPSMockOpen()) {
-            GpsMockManager.getInstance().startMock()
-        }
-        val latLng = GpsMockConfig.getMockLocation() ?: return
-        GpsMockManager.getInstance().mockLocation(latLng.latitude, latLng.longitude)
-    }
+
+//    private fun checkGPSMock() {
+//        if (GpsMockConfig.isGPSMockOpen()) {
+//            GpsMockManager.instance.startMock()
+//        }
+//        val latLng = GpsMockConfig.getMockLocation() ?: return
+//        GpsMockManager.instance.mockLocation(latLng.latitude, latLng.longitude)
+//    }
 
     /**
      * 单个文件的阈值为1M
@@ -363,11 +357,12 @@ object DoraemonKitReal {
                 //若是文件，直接打印 byte
                 val fileLength = FileUtils.getLength(file)
                 if (fileLength > FILE_LENGTH_THRESHOLD) {
-                    val fileBean = BigFileBean()
-                    fileBean.fileName = FileUtils.getFileName(file)
-                    fileBean.filePath = file.absolutePath
-                    fileBean.fileSize = "" + fileLength
-                    AppHealthInfoUtil.getInstance().addBigFilrInfo(fileBean)
+                    //TODO("健康体检功能")
+//                    val fileBean = BigFileBean()
+//                    fileBean.fileName = FileUtils.getFileName(file)
+//                    fileBean.filePath = file.absolutePath
+//                    fileBean.fileSize = "" + fileLength
+//                    AppHealthInfoUtil.getInstance().addBigFilrInfo(fileBean)
                 }
                 //LogHelper.i(TAG, "文件==>" + file.getAbsolutePath() + "   fileName===>" + FileUtils.getFileName(file) + " fileLength===>" + fileLength);
             }
@@ -411,13 +406,14 @@ object DoraemonKitReal {
             ToastUtils.showShort("要使用健康体检功能必须先去平台端注册")
             return
         }
-        AppHealthInfoUtil.getInstance().start()
+        //TODO("需要实现")
+        //AppHealthInfoUtil.getInstance().start()
         //开启大文件检测
         startBigFileInspect()
     }
 
-    fun setWebDoorCallback(callback: WebDoorCallback?) {
-        WebDoorManager.getInstance().webDoorCallback = callback
+    fun setWebDoorCallback(callback: (context: Context, url: String?) -> Unit) {
+        WebDoorManager.instance.webDoorCallback = callback
     }
 
     /**
@@ -430,9 +426,10 @@ object DoraemonKitReal {
                 Log.i("Doraemon", "当前网络已断开")
                 try {
                     DebugDB.shutDown()
-                    if (DokitConstant.DB_DEBUG_FRAGMENT != null) {
-                        DokitConstant.DB_DEBUG_FRAGMENT?.get()?.networkChanged(NetworkUtils.NetworkType.NETWORK_NO)
-                    }
+                    //TODO("功能待实现")
+//                    if (DokitConstant.DB_DEBUG_FRAGMENT != null) {
+//                        DokitConstant.DB_DEBUG_FRAGMENT?.get()?.networkChanged(NetworkUtils.NetworkType.NETWORK_NO)
+//                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -446,9 +443,10 @@ object DoraemonKitReal {
                     DebugDB.shutDown()
                     DebugDB.initialize(APPLICATION, DebugDBFactory())
                     DebugDB.initialize(APPLICATION, DebugDBEncryptFactory())
-                    if (DokitConstant.DB_DEBUG_FRAGMENT != null) {
-                        DokitConstant.DB_DEBUG_FRAGMENT?.get()?.networkChanged(networkType)
-                    }
+                    //TODO("功能待实现")
+//                    if (DokitConstant.DB_DEBUG_FRAGMENT != null) {
+//                        DokitConstant.DB_DEBUG_FRAGMENT?.get()?.networkChanged(networkType)
+//                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -460,9 +458,11 @@ object DoraemonKitReal {
      * 确认大图检测功能时候被打开
      */
     private fun checkLargeImgIsOpen() {
-        if (PerformanceSpInfoConfig.isLargeImgOpen()) {
-            NetworkManager.get().startMonitor()
-        }
+
+        //TODO("大图检测 待实现")
+//        if (PerformanceSpInfoConfig.isLargeImgOpen()) {
+//            NetworkManager.get().startMonitor()
+//        }
     }
 
     /**

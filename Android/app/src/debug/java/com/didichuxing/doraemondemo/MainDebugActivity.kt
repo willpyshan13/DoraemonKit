@@ -18,6 +18,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
@@ -61,7 +62,7 @@ import java.net.*
 /**
  * @author jintai
  */
-class MainDebugActivity : BaseActivity(), View.OnClickListener {
+class MainDebugActivity : AppCompatActivity(), View.OnClickListener {
     private var okHttpClient: OkHttpClient? = null
     private var mLocationManager: LocationManager? = null
     private var mLocationClient: AMapLocationClient? = null
