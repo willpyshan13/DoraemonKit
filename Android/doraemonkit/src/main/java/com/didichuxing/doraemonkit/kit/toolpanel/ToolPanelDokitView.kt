@@ -2,7 +2,6 @@ package com.didichuxing.doraemonkit.kit.toolpanel
 
 import android.content.Context
 import android.content.Intent
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
@@ -87,7 +86,7 @@ class ToolPanelDokitView : AbsDokitView() {
 
     private fun initView() {
         val titleBar = findViewById<TitleBar>(R.id.title_bar)
-        titleBar.setOnTitleBarClickListener(object : TitleBar.OnTitleBarClickListener {
+        titleBar.onTitleBarClickListener = object : TitleBar.OnTitleBarClickListener {
             override fun onLeftClick() {
                 detach()
             }
@@ -96,14 +95,15 @@ class ToolPanelDokitView : AbsDokitView() {
                 if (!isNormalMode) {
                     DoraemonKit.hideToolPanel()
                 }
-                if (activity != null) {
-                    val intent = Intent(activity, UniversalActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_DOKIT_SETTING)
-                    activity.startActivity(intent)
-                }
+
+                val intent = Intent(activity, UniversalActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_DOKIT_SETTING)
+                activity.startActivity(intent)
             }
-        })
+
+        }
+
         mAdapter = ToolPanelAdapter(mKits)
         val gridLayoutManager = GridLayoutManager(activity, 4)
         mAdapter.setGridSpanSizeLookup { _, viewType, _ ->

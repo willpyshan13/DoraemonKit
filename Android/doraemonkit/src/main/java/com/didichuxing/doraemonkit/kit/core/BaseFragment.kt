@@ -5,13 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager.Companion.instance
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
+import com.didichuxing.doraemonkit.util.DokitUtil
 import com.didichuxing.doraemonkit.widget.dialog.CommonDialogProvider
 import com.didichuxing.doraemonkit.widget.dialog.DialogInfo
 import com.didichuxing.doraemonkit.widget.dialog.DialogProvider
@@ -94,14 +95,13 @@ abstract class BaseFragment : Fragment() {
     }
 
     fun showToast(msg: CharSequence?) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        ToastUtils.showShort(msg)
     }
 
-    fun showToast(@StringRes res: Int) {
-        Toast.makeText(context, res, Toast.LENGTH_SHORT).show()
+    fun showToast(@StringRes resId: Int) {
+        ToastUtils.showShort(DokitUtil.getString(resId))
     }
 
-    @JvmOverloads
     fun showContent(fragmentClass: Class<out BaseFragment?>?, bundle: Bundle? = null) {
         val activity = activity as BaseActivity?
         activity?.showContent(fragmentClass!!, bundle)
@@ -116,21 +116,16 @@ abstract class BaseFragment : Fragment() {
         super.onDestroyView()
     }
 
-    fun showDialog(dialogInfo: DialogInfo): DialogProvider<*> {
+    open fun showDialog(dialogInfo: DialogInfo): DialogProvider<*>? {
         val provider = CommonDialogProvider(dialogInfo, dialogInfo.listener)
         showDialog(provider)
         return provider
     }
 
     open fun showDialog(provider: DialogProvider<*>) {
-        val dialog = UniversalDialogFragment()
+        val dialog = UniversalDialogFragment(provider)
         provider.host = dialog
-        dialog.setProvider(provider)
         provider.show(childFragmentManager)
-    }
-
-    fun dismissDialog(provider: DialogProvider<*>) {
-        provider.dismiss()
     }
 
     override fun onDestroy() {

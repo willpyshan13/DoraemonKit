@@ -15,12 +15,14 @@ import com.didichuxing.doraemonkit.widget.dialog.DialogProvider
 class TipDialogProvider internal constructor(data: Any?, listener: DialogListener?) : DialogProvider<Any?>(data, listener) {
     private lateinit var mTip: TextView
 
-    override fun getLayoutId(): Int {
-        return R.layout.dk_dialog_tip
-    }
+    override val layoutId: Int
+        get() = R.layout.dk_dialog_tip
 
-    override fun findViews(view: View) {
-        mTip = view.findViewById(R.id.tv_tip)
+
+    override fun findViews(view: View?) {
+        view?.let {
+            mTip = view.findViewById(R.id.tv_tip)
+        }
     }
 
     override fun bindData(data: Any?) {

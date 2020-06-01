@@ -21,7 +21,6 @@ class MainIconDokitView : AbsDokitView() {
         rootView?.id = R.id.float_icon_id
         //设置icon 点击事件
         rootView?.setOnClickListener { //统计入口
-
             //DataPickManager.getInstance().addData("dokit_sdk_home_ck_entry"); //TODO("功能待实现")
             showToolPanel()
         }

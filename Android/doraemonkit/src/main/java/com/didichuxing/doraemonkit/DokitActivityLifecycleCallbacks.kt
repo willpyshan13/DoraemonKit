@@ -62,7 +62,7 @@ internal class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCa
     override fun onActivityResumed(activity: Activity?) {
         activity?.let {
             recordActivityLifeCycleStatus(it, LIFE_CYCLE_STATUS_RESUME)
-            //记录页面层级
+            //记录页面层级 健康体检需要
             if (it.javaClass.canonicalName != "com.didichuxing.doraemonkit.kit.base.UniversalActivity") {
                 //recordActivityUiLevel(activity)
             }

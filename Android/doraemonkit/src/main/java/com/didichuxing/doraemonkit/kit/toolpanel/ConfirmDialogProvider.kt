@@ -17,14 +17,22 @@ class ConfirmDialogProvider(data: Any?, listener: DialogListener?) : DialogProvi
     private lateinit var mTvPositive: TextView
     private lateinit var mTvNegative: TextView
 
-    override fun getLayoutId(): Int {
-        return R.layout.dk_dialog_confirm
-    }
+    override val positiveView = mTvPositive
+    override val negativeView = mTvNegative
+    override val layoutId: Int
+        get() = R.layout.dk_dialog_confirm
 
-    override fun findViews(view: View) {
-        mTvContent = view.findViewById(R.id.tv_content)
-        mTvPositive = view.findViewById(R.id.positive)
-        mTvNegative = view.findViewById(R.id.negative)
+    override val isCancellable: Boolean
+        get() = false
+
+
+    override fun findViews(view: View?) {
+        view?.let {
+            mTvContent = view.findViewById(R.id.tv_content)
+            mTvPositive = view.findViewById(R.id.positive)
+            mTvNegative = view.findViewById(R.id.negative)
+        }
+
     }
 
     override fun bindData(data: Any?) {
@@ -33,19 +41,6 @@ class ConfirmDialogProvider(data: Any?, listener: DialogListener?) : DialogProvi
         }
 
     }
-
-    override fun getPositiveView(): View? {
-        return mTvPositive
-    }
-
-    override fun getNegativeView(): View? {
-        return mTvNegative
-    }
-
-    override fun isCancellable(): Boolean {
-        return false
-    }
-
 
 
 }

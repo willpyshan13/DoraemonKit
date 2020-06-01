@@ -11,6 +11,7 @@ import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity
 import com.didichuxing.doraemonkit.util.DokitUtil
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
 import kotlinx.android.synthetic.main.dk_fragment_setting.*
 
 /**
@@ -37,24 +38,30 @@ class DokitSettingFragment : BaseFragment() {
     }
 
 
-    fun initView() {
-        title_bar.setListener {
-            finish()
+    private fun initView() {
+        title_bar.mListener = object : HomeTitleBar.OnTitleBarClickListener {
+            override fun onRightClick() {
+                finish()
+            }
+
         }
 
         mAdapter = DokitSettingAdapter(mSettings)
         setting_list.adapter = mAdapter
         setting_list.layoutManager = LinearLayoutManager(activity)
         mAdapter.setOnItemClickListener { _, _, position ->
-
             when (position) {
                 0 -> {
-                    if (activity != null) {
-                        val intent = Intent(activity, UniversalActivity::class.java)
+                    activity?.let {
+                        val intent = Intent(it, UniversalActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                         intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_DOKIT_MANAGER)
-                        activity!!.startActivity(intent)
+                        it.startActivity(intent)
                     }
+                }
+
+                else -> {
+
                 }
             }
         }

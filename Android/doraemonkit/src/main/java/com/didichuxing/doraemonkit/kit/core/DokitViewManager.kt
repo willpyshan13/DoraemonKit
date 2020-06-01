@@ -243,7 +243,7 @@ class DokitViewManager : DokitViewManagerInterface {
 
         if (!DokitConstant.IS_NORMAL_FLOAT_MODE && mDokitViewManager is SystemDokitViewManager) {
             listener?.let {
-                (mDokitViewManager as SystemDokitViewManager).addListener(listener)
+                (mDokitViewManager as SystemDokitViewManager).addDoKitViewAttachedListener(listener)
             }
         }
     }
@@ -257,7 +257,7 @@ class DokitViewManager : DokitViewManagerInterface {
 
         if (!DokitConstant.IS_NORMAL_FLOAT_MODE && mDokitViewManager is SystemDokitViewManager) {
             listener?.let {
-                (mDokitViewManager as SystemDokitViewManager).removeListener(listener)
+                (mDokitViewManager as SystemDokitViewManager).removeDoKitViewAttachedListener(listener)
             }
         }
     }

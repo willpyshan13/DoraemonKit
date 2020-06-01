@@ -12,7 +12,9 @@ import com.didichuxing.doraemonkit.DoraemonKit.isShow
 import com.didichuxing.doraemonkit.DoraemonKit.show
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.DokitConstant
+import com.didichuxing.doraemonkit.kit.health.CountDownDokitView
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
+import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitView
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.SystemUtil
@@ -76,6 +78,7 @@ internal class NormalDokitViewManager(val mContext: Context) : DokitViewManagerI
                 onMainActivityCreate(it)
                 return
             }
+
             val activityLifecycleInfo = DokitConstant.ACTIVITY_LIFECYCLE_INFOS[it.javaClass.canonicalName]
                     ?: return
             //新建Activity
@@ -120,10 +123,9 @@ internal class NormalDokitViewManager(val mContext: Context) : DokitViewManagerI
         //将所有的dokitView添加到新建的Activity中去
 
         for (dokitViewInfo in mGlobalSingleDokitViews.values) {
-            //TODO("功能待实现")
-//            if (activity is UniversalActivity && dokitViewInfo.absDokitViewClass != PerformanceDokitView::class.java) {
-//                continue
-//            }
+            if (activity is UniversalActivity && dokitViewInfo.absDokitViewClass != PerformanceDokitView::class.java) {
+                continue
+            }
             //是否过滤掉 入口icon
             if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && dokitViewInfo.absDokitViewClass == MainIconDokitView::class.java) {
                 continue
@@ -139,8 +141,11 @@ internal class NormalDokitViewManager(val mContext: Context) : DokitViewManagerI
             show()
         }
 
-        //倒计时DokitView
-        attachCountDownDokitView(activity)
+        activity?.let {
+            //倒计时DokitView
+            attachCountDownDokitView(it)
+        }
+
     }
 
     /**
@@ -176,10 +181,9 @@ internal class NormalDokitViewManager(val mContext: Context) : DokitViewManagerI
         //更新所有全局DokitView的位置
         if (mGlobalSingleDokitViews.isNotEmpty()) {
             for (globalSingleDokitViewInfo in mGlobalSingleDokitViews.values) {
-                //TODO("功能待实现")
-//                if (activity is UniversalActivity && globalSingleDokitViewInfo.absDokitViewClass != PerformanceDokitView::class.java) {
-//                    continue
-//                }
+                if (activity is UniversalActivity && globalSingleDokitViewInfo.absDokitViewClass != PerformanceDokitView::class.java) {
+                    continue
+                }
                 //是否过滤掉 入口icon
                 if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && globalSingleDokitViewInfo.absDokitViewClass == MainIconDokitView::class.java) {
                     continue
@@ -243,10 +247,9 @@ internal class NormalDokitViewManager(val mContext: Context) : DokitViewManagerI
         if (activity is UniversalActivity) {
             return
         }
-        //TODO("功能待实现")
-//        val dokitIntent = DokitIntent(CountDownDokitView::class.java)
-//        dokitIntent.mode = DokitIntent.MODE_ONCE
-//        attach(dokitIntent)
+        val dokitIntent = DokitIntent(CountDownDokitView::class.java)
+        dokitIntent.mode = DokitIntent.MODE_ONCE
+        attach(dokitIntent)
     }
 
     /**
