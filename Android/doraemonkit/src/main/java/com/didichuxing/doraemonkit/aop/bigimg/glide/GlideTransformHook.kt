@@ -12,7 +12,7 @@ import com.bumptech.glide.load.Transformation
  * 修订历史：
  * ================================================
  */
-object GlideTransformHook {
+public object GlideTransformHook {
     fun transform(baseRequestOptions: Any?, transformation: Any?): Transformation<Bitmap?> {
         return DokitGlideTransform(baseRequestOptions!!, transformation)
     }

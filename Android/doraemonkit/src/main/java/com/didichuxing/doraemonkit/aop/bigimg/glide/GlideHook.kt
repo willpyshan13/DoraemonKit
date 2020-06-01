@@ -14,14 +14,15 @@ import java.util.*
  * 修订历史：
  * ================================================
  */
-object GlideHook {
+public object GlideHook {
     /**
      * hook requestListeners字段
      *
      * @param singleRequest
      * @return
      */
-    fun proxy(singleRequest: Any?) {
+    @JvmStatic
+    public fun proxy(singleRequest: Any?) {
         try {
             var requestListeners: MutableList<RequestListener<*>?>? = null
             if (singleRequest is SingleRequest<*>) {

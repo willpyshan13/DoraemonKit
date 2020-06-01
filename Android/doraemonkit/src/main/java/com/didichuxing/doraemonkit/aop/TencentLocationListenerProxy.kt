@@ -14,7 +14,7 @@ import com.tencent.map.geolocation.TencentLocationListener
  * 修订历史：
  * ================================================
  */
-class TencentLocationListenerProxy(var tencentLocationListener: TencentLocationListener?) : TencentLocationListener {
+public class TencentLocationListenerProxy(var tencentLocationListener: TencentLocationListener?) : TencentLocationListener {
     override fun onLocationChanged(tencentLocation: TencentLocation, i: Int, s: String) {
         //TODO("功能待实现")
 //        if (GpsMockManager.getInstance().isMocking()) {

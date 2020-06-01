@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.plugin
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
+import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
 import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
 import com.didichuxing.doraemonkit.plugin.transform.DoKitCommTransform
 import com.didichuxing.doraemonkit.plugin.transform.DoKitDependTransform
@@ -81,16 +82,18 @@ class DoKitPlugin : Plugin<Project> {
         when {
             project.plugins.hasPlugin("com.android.application") || project.plugins.hasPlugin("com.android.dynamic-feature") -> {
                 project.getAndroid<AppExtension>().let { androidExt ->
-                    val slowMethodSwitch = project.getProperty("DOKIT_SLOW_METHOD_SWITCH", false)
+                    val slowMethodSwitch = project.getProperty("DOKIT_METHOD_SWITCH", false)
+                    val slowMethodStrategy = project.getProperty("DOKIT_METHOD_STRATEGY", 0)
                     val methodStackLevel = project.getProperty("DOKIT_METHOD_STACK_LEVEL", 5)
                     DoKitExtUtil.mSlowMethodSwitch = slowMethodSwitch
+                    DoKitExtUtil.mSlowMethodStrategy = slowMethodStrategy
                     DoKitExtUtil.mStackMethodLevel = methodStackLevel
 
                     MethodStackNodeUtil.METHOD_STACK_KEYS.clear()
                     //注册transform
                     androidExt.registerTransform(DoKitCommTransform(project))
-                    MethodStackNodeUtil.METHOD_STACK_KEYS.add(0, mutableSetOf<String>())
-                    if (slowMethodSwitch) {
+                    if (slowMethodSwitch && slowMethodStrategy == SlowMethodExt.STRATEGY_STACK) {
+                        MethodStackNodeUtil.METHOD_STACK_KEYS.add(0, mutableSetOf<String>())
                         val methodStackRange = 1 until methodStackLevel
                         if (methodStackLevel > 1) {
                             for (index in methodStackRange) {

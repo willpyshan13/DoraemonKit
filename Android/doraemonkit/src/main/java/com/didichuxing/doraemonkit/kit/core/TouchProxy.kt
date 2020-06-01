@@ -19,6 +19,12 @@ class TouchProxy(private var mEventListener: OnTouchEventListener?) {
         STATE_MOVE, STATE_STOP
     }
 
+    fun removeListener() {
+        mEventListener?.let {
+            mEventListener = null
+        }
+    }
+
     fun onTouchEvent(v: View, event: MotionEvent): Boolean {
         val distance = UIUtils.dp2px(1f) * MIN_DISTANCE_MOVE
         val x = event.rawX.toInt()

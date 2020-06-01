@@ -9,7 +9,7 @@ package com.didichuxing.doraemonkit.aop
  * 修订历史：
  * ================================================
  */
-object DokitPluginConfig {
+public object DokitPluginConfig {
     private const val TAG = "DokitPluginConfig"
     var STRATEGY_STACK = 0
     var STRATEGY_NORMAL = 1
@@ -30,6 +30,7 @@ object DokitPluginConfig {
     /**
      * 注入插件配置 动态注入到DoraemonKitReal#pluginConfig方法中
      */
+    @JvmStatic
     fun inject(config: Map<*, *>) {
         //LogHelper.i(TAG, "map====>" + config);
         SWITCH_DOKIT_PLUGIN = config["dokitPluginSwitch"] as Boolean

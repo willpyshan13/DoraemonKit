@@ -12,7 +12,7 @@ import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager
  * 修订历史：
  * ================================================
  */
-object BDLocationUtil {
+public object BDLocationUtil {
     fun proxy(bdLocation: BDLocation): BDLocation {
         //TODO("功能待实现")
 //        if (GpsMockManager.getInstance().isMocking()) {

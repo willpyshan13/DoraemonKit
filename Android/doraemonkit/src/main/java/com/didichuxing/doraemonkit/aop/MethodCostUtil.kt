@@ -15,13 +15,14 @@ import java.util.concurrent.ConcurrentHashMap
  * 修订历史：
  * ================================================
  */
-class MethodCostUtil {
+object MethodCostUtil {
+    private const val TAG = "DOKIT_SLOW_METHOD"
+
     /**
-     * 静态内部类单例
+     * key className&method
      */
-    private object Holder {
-        private val INSTANCE = MethodCostUtil()
-    }
+    private val METHOD_COSTS: ConcurrentHashMap<String, Long?>? = ConcurrentHashMap()
+
 
     @Synchronized
     fun recodeObjectMethodCostStart(thresholdTime: Int, methodName: String, classObj: Any?) {
@@ -203,13 +204,5 @@ class MethodCostUtil {
         }
     }
 
-    companion object {
-        private const val TAG = "DOKIT_SLOW_METHOD"
 
-        /**
-         * key className&method
-         */
-        private val METHOD_COSTS: ConcurrentHashMap<String, Long?>? = ConcurrentHashMap()
-        val instance: MethodCostUtil = MethodCostUtil()
-    }
 }

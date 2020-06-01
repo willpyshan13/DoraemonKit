@@ -26,10 +26,6 @@ import org.objectweb.asm.tree.*
 @AutoService(ClassTransformer::class)
 class CommTransformer : ClassTransformer {
 
-    override fun onPreTransform(context: TransformContext) {
-        super.onPreTransform(context)
-        //println("CommTransformer===>${context.name}")
-    }
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
         if (context.isRelease()) {
@@ -198,7 +194,7 @@ class CommTransformer : ClassTransformer {
             //put("methodStrategy",0)
             add(VarInsnNode(ALOAD, 0))
             add(LdcInsnNode("methodStrategy"))
-            add(InsnNode(if (DoKitExtUtil.slowMethodExt.strategy == SlowMethodExt.STRATEGY_STACK) ICONST_0 else ICONST_1))
+            add(InsnNode(if (DoKitExtUtil.mSlowMethodStrategy == SlowMethodExt.STRATEGY_STACK) ICONST_0 else ICONST_1))
             add(MethodInsnNode(INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;", false))
             add(MethodInsnNode(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true))
             add(InsnNode(POP))

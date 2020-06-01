@@ -40,7 +40,7 @@ class GlobalSlowMethodTransformer : ClassTransformer {
             return klass
         }
 
-        if (DoKitExtUtil.slowMethodExt.strategy == SlowMethodExt.STRATEGY_STACK) {
+        if (DoKitExtUtil.mSlowMethodStrategy == SlowMethodExt.STRATEGY_STACK) {
             return klass
         }
 
@@ -91,12 +91,12 @@ class GlobalSlowMethodTransformer : ClassTransformer {
         val isStaticMethod = access and ACC_STATIC != 0
         return with(InsnList()) {
             if (isStaticMethod) {
-                add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;", false))
+                add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "INSTANCE", "Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;"))
                 add(IntInsnNode(SIPUSH, thresholdTime))
                 add(LdcInsnNode("$className&$methodName"))
                 add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeStaticMethodCostStart", "(ILjava/lang/String;)V", false))
             } else {
-                add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;", false))
+                add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "INSTANCE", "Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;"))
                 add(IntInsnNode(SIPUSH, thresholdTime))
                 add(LdcInsnNode("$className&$methodName"))
                 add(VarInsnNode(ALOAD, 0))
@@ -116,12 +116,12 @@ class GlobalSlowMethodTransformer : ClassTransformer {
         val isStaticMethod = access and ACC_STATIC != 0
         return with(InsnList()) {
             if (isStaticMethod) {
-                add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;", false))
+                add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "INSTANCE", "Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;"))
                 add(IntInsnNode(SIPUSH, thresholdTime))
                 add(LdcInsnNode("$className&$methodName"))
                 add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeStaticMethodCostEnd", "(ILjava/lang/String;)V", false))
             } else {
-                add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;", false))
+                add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "INSTANCE", "Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;"))
                 add(IntInsnNode(SIPUSH, thresholdTime))
                 add(LdcInsnNode("$className&$methodName"))
                 add(VarInsnNode(ALOAD, 0))

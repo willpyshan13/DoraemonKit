@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap
  * 修订历史：
  * ================================================
  */
-class MethodStackUtil {
+public object MethodStackUtil {
     /**
      * key className&methodName
      */
@@ -28,12 +28,6 @@ class MethodStackUtil {
     //    private ConcurrentHashMap<String, MethodInvokNode> LEVEL4_METHOD_STACKS = new ConcurrentHashMap<>();
     private val METHOD_STACKS = Collections.synchronizedList(ArrayList<ConcurrentHashMap<String, MethodInvokNode>>())
 
-    /**
-     * 静态内部类单例
-     */
-    private object Holder {
-        private val INSTANCE = MethodStackUtil()
-    }
 
     private fun createMethodStackList(totalLevel: Int) {
         if (METHOD_STACKS.size == totalLevel) {
@@ -230,17 +224,13 @@ class MethodStackUtil {
         return SPACE_0
     }
 
-    companion object {
-        private const val TAG = "DOKIT_SLOW_METHOD"
-        val instance: MethodStackUtil = MethodStackUtil()
+    private const val TAG = "DOKIT_SLOW_METHOD"
 
-
-        private const val SPACE_0 = "********"
-        private const val SPACE_1 = "*************"
-        private const val SPACE_2 = "*****************"
-        private const val SPACE_3 = "*********************"
-        private const val SPACE_4 = "*************************"
-        var STR_APP_ON_CREATE: String? = null
-        var STR_APP_ATTACH_BASECONTEXT: String? = null
-    }
+    private const val SPACE_0 = "********"
+    private const val SPACE_1 = "*************"
+    private const val SPACE_2 = "*****************"
+    private const val SPACE_3 = "*********************"
+    private const val SPACE_4 = "*************************"
+    var STR_APP_ON_CREATE: String? = null
+    var STR_APP_ATTACH_BASECONTEXT: String? = null
 }

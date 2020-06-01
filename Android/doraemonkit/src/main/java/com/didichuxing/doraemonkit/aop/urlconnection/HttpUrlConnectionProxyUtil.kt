@@ -22,9 +22,11 @@ import java.util.concurrent.TimeUnit
  * 修订历史：
  * ================================================
  */
-object HttpUrlConnectionProxyUtil {
+public object HttpUrlConnectionProxyUtil {
     //private static final String TAG = "HttpUrlConnectionProxyUtil";
     private val hosts = arrayOf("amap.com")
+
+    @JvmStatic
     fun proxy(urlConnection: URLConnection): URLConnection {
         try {
             val host = HttpUrl.parse(urlConnection.url.toString())!!.host()

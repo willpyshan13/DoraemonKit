@@ -19,7 +19,7 @@ import java.util.*
  * 修订历史：
  * ================================================
  */
-object OkHttpHook {
+internal object OkHttpHook {
     //    每个拦截器都有自己的相对优点。
     //    应用拦截器
     //    不需要担心中间响应，如重定向和重试。
@@ -33,9 +33,16 @@ object OkHttpHook {
     //    不调用缓存的响应来短路网络。
     //    观察数据，就像通过网络传输一样。
     //    访问Connection该请求。
-    var globalInterceptors: MutableList<Interceptor> = ArrayList()
-    var globalNetworkInterceptors: MutableList<Interceptor> = ArrayList()
+    @JvmField
+    public val globalInterceptors: MutableList<Interceptor> = mutableListOf()
+
+
+    @JvmField
+    public val globalNetworkInterceptors: MutableList<Interceptor> = mutableListOf()
+
+
     private var IS_INSTALL = false
+
     fun installInterceptor() {
         if (IS_INSTALL) {
             return
@@ -56,6 +63,7 @@ object OkHttpHook {
      * @param builder      真实的对象为okHttpClient.Builder
      * @param okHttpClient 真实的对象为okHttpClient
      */
+    @JvmStatic
     fun performOkhttpOneParamBuilderInit(builder: Any?, okHttpClient: Any?) {
         try {
             if (builder is OkHttpClient.Builder) {

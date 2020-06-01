@@ -3,8 +3,6 @@ package com.didichuxing.doraemonkit.plugin
 import com.didichuxing.doraemonkit.plugin.extension.CommExt
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
 import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
-import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt.Companion.STRATEGY_NORMAL
-import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
 
 /**
  * ================================================
@@ -34,6 +32,12 @@ object DoKitExtUtil {
      */
     public var mSlowMethodSwitch = false
 
+
+    /**
+     * 慢函数策略 默认为函数调用栈策略
+     */
+    public var mSlowMethodStrategy = SlowMethodExt.STRATEGY_STACK
+
     private val applications: MutableSet<String> = mutableSetOf()
     var commExt = CommExt()
         private set
@@ -62,8 +66,8 @@ object DoKitExtUtil {
         mDokitLogSwitch = dokitEx.dokitLogSwitch
         //设置普通的配置
         commExt = dokitEx.comm
-        slowMethodExt.strategy = dokitEx.slowMethod.strategy
-        slowMethodExt.methodSwitch = dokitEx.slowMethod.methodSwitch
+        //slowMethodExt.strategy = dokitEx.slowMethod.strategy
+        //slowMethodExt.methodSwitch = dokitEx.slowMethod.methodSwitch
         /**
          * ============慢函数普通策略的配置 start==========
          */
@@ -122,29 +126,42 @@ object DoKitExtUtil {
     }
 
     fun ignorePackageNames(className: String): Boolean {
-        var isMatched = false
-        for (packageName in ignorePackageNames) {
-            if (className.contains(packageName)) {
-                isMatched = true
-                break
+        //命中白名单返回false
+        for (packageName in whitePackageNames) {
+            if (className.startsWith(packageName, true)) {
+                return false
             }
         }
-        return isMatched
+
+        //命中黑名单返回true
+        for (packageName in blackPackageNames) {
+            if (className.startsWith(packageName, true)) {
+                return true
+            }
+        }
+
+        return false
     }
 
-    private val ignorePackageNames = arrayOf(
-            "com.didichuxing.doraemonkit.aop",
-            "com.didichuxing.doraemonkit.config",
-            "com.didichuxing.doraemonkit.constant",
-            "com.didichuxing.doraemonkit.datapick",
-            "com.didichuxing.doraemonkit.kit",
-            "com.didichuxing.doraemonkit.model",
-            "com.didichuxing.doraemonkit.okgo",
-            "com.didichuxing.doraemonkit.picasso",
-            "com.didichuxing.doraemonkit.reflection",
-            "com.didichuxing.doraemonkit.util",
-            "com.didichuxing.doraemonkit.widget",
-            "com.didichuxing.doraemonkit.zxing"
+
+    /**
+     * 白名单
+     */
+    private val whitePackageNames = arrayOf(
+            "com.didichuxing.doraemonkit.DoraemonKit",
+            "com.didichuxing.doraemonkit.DoraemonKitReal"
+    )
+
+
+    /**
+     * 黑名单
+     */
+    private val blackPackageNames = arrayOf(
+            "com.didichuxing.doraemonkit.",
+            "kotlin.",
+            "java.",
+            "android.",
+            "androidx."
     )
 
     fun log(tag: String, className: String, methodName: String, access: Int, desc: String, signature: String, thresholdTime: Int) {

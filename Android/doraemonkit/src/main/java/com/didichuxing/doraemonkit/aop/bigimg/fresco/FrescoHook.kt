@@ -12,8 +12,9 @@ import com.facebook.imagepipeline.request.Postprocessor
  * 修订历史：
  * ================================================
  */
-object FrescoHook {
-    fun proxy(uri: Uri?, postprocessor: Postprocessor?): Postprocessor {
+public object FrescoHook {
+    @JvmStatic
+    public fun proxy(uri: Uri?, postprocessor: Postprocessor?): Postprocessor {
         return DokitFrescoPostprocessor(uri!!, postprocessor)
     }
 }

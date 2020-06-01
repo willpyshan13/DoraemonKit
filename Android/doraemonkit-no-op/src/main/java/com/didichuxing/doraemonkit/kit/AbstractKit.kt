@@ -54,8 +54,5 @@ abstract class AbstractKit : IKit {
         return null
     }
 
-    override val category: Int
-        get() = Category.DEFAULT
-
 
 }

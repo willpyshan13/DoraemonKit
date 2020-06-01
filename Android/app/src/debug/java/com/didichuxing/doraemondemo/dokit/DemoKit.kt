@@ -3,7 +3,6 @@ package com.didichuxing.doraemondemo.dokit
 import android.content.Context
 import com.didichuxing.doraemondemo.R
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.Category
 import com.didichuxing.doraemonkit.kit.core.DokitIntent
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 
@@ -17,8 +16,7 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewManager
  * ================================================
  */
 class DemoKit : AbstractKit() {
-    override val category: Int
-        get() = Category.BIZ
+
     override val name: Int
         get() = R.string.dk_kit_demo
     override val icon: Int

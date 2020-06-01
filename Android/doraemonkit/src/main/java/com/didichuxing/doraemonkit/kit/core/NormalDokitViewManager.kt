@@ -21,7 +21,7 @@ import com.didichuxing.doraemonkit.util.SystemUtil
 import java.lang.ref.WeakReference
 
 /**
- * Created by jintai on 2018/10/23.
+ * Created by jint on 2018/10/23.
  * 每个activity悬浮窗管理类
  */
 internal class NormalDokitViewManager(val mContext: Context) : DokitViewManagerInterface {
@@ -48,7 +48,6 @@ internal class NormalDokitViewManager(val mContext: Context) : DokitViewManagerI
             map.values.forEach { dokitView ->
                 dokitView?.onEnterBackground()
             }
-
         }
 
     }
@@ -109,7 +108,6 @@ internal class NormalDokitViewManager(val mContext: Context) : DokitViewManagerI
             return
         }
         val dokitIntent = DokitIntent(MainIconDokitView::class.java)
-        dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE
         attach(dokitIntent)
     }
 

@@ -13,7 +13,7 @@ import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager
  * 修订历史：
  * ================================================
  */
-class AMapLocationListenerProxy(var aMapLocationListener: AMapLocationListener?) : AMapLocationListener {
+public class AMapLocationListenerProxy(var aMapLocationListener: AMapLocationListener?) : AMapLocationListener {
     override fun onLocationChanged(mapLocation: AMapLocation) {
         //TODO("功能待实现")
 //        if (GpsMockManager.getInstance().isMocking()) {

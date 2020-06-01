@@ -8,7 +8,7 @@ import com.didichuxing.doraemonkit.kit.AbstractKit
 /**
  * Created by jint on 2018/6/22.
  */
-object DoraemonKit {
+public object DoraemonKit {
     @JvmField
     var APPLICATION: Application? = null
     private const val TAG = "DoraemonKit"

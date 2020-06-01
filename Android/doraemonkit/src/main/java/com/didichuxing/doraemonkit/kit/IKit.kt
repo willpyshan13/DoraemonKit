@@ -9,12 +9,6 @@ import androidx.annotation.StringRes
  * 工具入口 请继承AbstractKit
  */
 internal interface IKit {
-    /**
-     * 返回分类
-     *
-     * @return int
-     */
-    val category: Int
 
     /**
      * 返回名称

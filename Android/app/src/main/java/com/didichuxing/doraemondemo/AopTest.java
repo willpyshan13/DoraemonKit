@@ -1,5 +1,7 @@
 package com.didichuxing.doraemondemo;
 
+import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil;
+
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -13,7 +15,7 @@ public class AopTest {
     private static final String TAG = "AopTest";
 
     public void test() {
-
+        MethodStackUtil.INSTANCE.recodeObjectMethodCostEnd(10, 4, "AopTest", "test", "desc", this);
     }
 
 

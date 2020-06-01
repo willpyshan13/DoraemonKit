@@ -11,8 +11,9 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener
  * 修订历史：
  * ================================================
  */
-object ImageLoaderHook {
-    fun proxy(imageLoadingListener: ImageLoadingListener?): ImageLoadingListener {
+public object ImageLoaderHook {
+    @JvmStatic
+    public fun proxy(imageLoadingListener: ImageLoadingListener?): ImageLoadingListener {
         return DokitImageLoadingListener(imageLoadingListener)
     }
 }

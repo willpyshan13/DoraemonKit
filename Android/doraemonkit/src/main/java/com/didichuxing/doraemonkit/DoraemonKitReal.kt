@@ -137,6 +137,8 @@ object DoraemonKitReal {
 
         }
         //添加自定义的kit 需要读取配置文件
+
+
         ThreadUtils.executeByIo(object : SimpleTask<Any>() {
             override fun doInBackground(): Any {
                 addInnerKit(app)

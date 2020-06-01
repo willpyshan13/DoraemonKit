@@ -13,11 +13,12 @@ import java.util.*
  * 修订历史：
  * ================================================
  */
-object PicassoHook {
+public object PicassoHook {
     /**
      * 注入到com.squareup.picasso.Request 构造方法中
      */
-    fun proxy(request: Any?) {
+    @JvmStatic
+    public fun proxy(request: Any?) {
         try {
             if (request is Request) {
                 val requestObj = request
