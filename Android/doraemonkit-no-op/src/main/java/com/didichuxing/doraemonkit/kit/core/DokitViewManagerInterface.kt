@@ -1,8 +1,6 @@
-package com.didichuxing.doraemonkit.kit.core;
+package com.didichuxing.doraemonkit.kit.core
 
-import android.app.Activity;
-
-import java.util.Map;
+import android.app.Activity
 
 /**
  * ================================================
@@ -13,43 +11,39 @@ import java.util.Map;
  * 修订历史：
  * ================================================
  */
-public interface DokitViewManagerInterface {
-
-
+interface DokitViewManagerInterface {
     /**
      * 在当前Activity中添加指定悬浮窗
      *
      * @param dokitIntent
      */
-    void attach(DokitIntent dokitIntent);
-
+    fun attach(dokitIntent: DokitIntent?)
 
     /**
      * 移除每个activity指定的dokitView
      *
      * @param dokitView
      */
-    void detach(AbsDokitView dokitView);
+    fun detach(dokitView: AbsDokitView?)
 
     /**
      * 移除每个activity指定的dokitView tag
      *
      * @param tag 一般为dokitView的className
      */
-    void detach(String tag);
+    fun detach(tag: String?)
 
     /**
      * 移除指定的dokitView
      *
      * @param dokitViewClass
      */
-    void detach(Class<? extends AbsDokitView> dokitViewClass);
+    fun detach(dokitViewClass: Class<out AbsDokitView?>?)
 
     /**
      * 移除所有activity的所有dokitView
      */
-    void detachAll();
-
+    fun detachAll()
 
     /**
      * 获取页面上指定的dokitView
@@ -58,8 +52,7 @@ public interface DokitViewManagerInterface {
      * @param tag
      * @return
      */
-    AbsDokitView getDokitView(Activity activity, String tag);
-
+    fun getDokitView(activity: Activity?, tag: String?): AbsDokitView?
 
     /**
      * 获取页面上所有的dokitView
@@ -67,26 +60,24 @@ public interface DokitViewManagerInterface {
      * @param activity
      * @return
      */
-    Map<String, AbsDokitView> getDokitViews(Activity activity);
+    fun getDokitViews(activity: Activity?): Map<String?, AbsDokitView?>?
 
     /**
      * 当app进入后台时调用
      */
-    void notifyBackground();
-
+    fun notifyBackground()
 
     /**
      * 当app进入前台时调用
      */
-    void notifyForeground();
-
+    fun notifyForeground()
 
     /**
      * Activity销毁时调用
      *
      * @param activity
      */
-    void onActivityDestroy(Activity activity);
+    fun onActivityDestroy(activity: Activity?)
 
     /**
      * 只有普通的浮标才需要调用
@@ -94,33 +85,33 @@ public interface DokitViewManagerInterface {
      *
      * @param activity
      */
-    void resumeAndAttachDokitViews(Activity activity);
+    fun resumeAndAttachDokitViews(activity: Activity?)
 
     /**
      * main activity 创建时回调
      *
      * @param activity
      */
-    void onMainActivityCreate(Activity activity);
+    fun onMainActivityCreate(activity: Activity?)
 
     /**
      * 除main activity 以外 其他activty 创建时回调
      *
      * @param activity
      */
-    void onActivityCreate(Activity activity);
+    fun onActivityCreate(activity: Activity?)
 
     /**
      * 页面回退的时候调用
      *
      * @param activity
      */
-    void onActivityResume(Activity activity);
+    fun onActivityResume(activity: Activity?)
 
     /**
      * 页面onPause时调用
      *
      * @param activity
      */
-    void onActivityPause(Activity activity);
+    fun onActivityPause(activity: Activity?)
 }

@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit
 
 import android.app.Application
+import android.content.Context
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 
 /**
  * Created by jint on 2018/6/22.
@@ -36,7 +36,7 @@ object DoraemonKit {
     }
 
     @JvmStatic
-    fun setWebDoorCallback(callback: WebDoorManager.WebDoorCallback?) {
+    fun setWebDoorCallback(callback: (context: Context, url: String?) -> Unit) {
     }
 
     @JvmStatic

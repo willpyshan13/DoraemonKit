@@ -3,6 +3,7 @@ package com.didichuxing.doraemondemo
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import androidx.multidex.MultiDex
 import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemonkit.DoraemonKit
@@ -35,7 +36,12 @@ class App : Application() {
         mapKits["业务专区2"] = mutableListOf<AbstractKit>(DemoKit())
 
         DoraemonKit.install(this, mapKits = mapKits, productId = "749a0600b5e48dd77cf8ee680be7b1b7")
-
+        DoraemonKit.setWebDoorCallback { _, url ->
+            val intent = Intent(this@App, WebViewActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.putExtra(WebViewActivity.KEY_URL, url)
+            startActivity(intent)
+        }
         val config = ImagePipelineConfig.newBuilder(this)
                 .setDiskCacheEnabled(false)
                 .build()

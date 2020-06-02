@@ -20,4 +20,5 @@
     <string name="app_btn_create_database">创建数据库</string>
     <string name="app_btn_upload_file">上传文件</string>
     <string name="app_btn_download_file">下载文件</string>
+    <string name="dk_kit_demo">demo</string>
 </resources>

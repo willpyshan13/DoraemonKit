@@ -21,12 +21,9 @@ public object MethodStackUtil {
     /**
      * key className&methodName
      */
-    //    private ConcurrentHashMap<String, MethodInvokNode> ROOT_METHOD_STACKS = new ConcurrentHashMap<>();
-    //    private ConcurrentHashMap<String, MethodInvokNode> LEVEL1_METHOD_STACKS = new ConcurrentHashMap<>();
-    //    private ConcurrentHashMap<String, MethodInvokNode> LEVEL2_METHOD_STACKS = new ConcurrentHashMap<>();
-    //    private ConcurrentHashMap<String, MethodInvokNode> LEVEL3_METHOD_STACKS = new ConcurrentHashMap<>();
-    //    private ConcurrentHashMap<String, MethodInvokNode> LEVEL4_METHOD_STACKS = new ConcurrentHashMap<>();
-    private val METHOD_STACKS = Collections.synchronizedList(ArrayList<ConcurrentHashMap<String, MethodInvokNode>>())
+    private val METHOD_STACKS: MutableList<ConcurrentHashMap<String, MethodInvokNode>> by lazy {
+        Collections.synchronizedList(mutableListOf<ConcurrentHashMap<String, MethodInvokNode>>())
+    }
 
 
     private fun createMethodStackList(totalLevel: Int) {
