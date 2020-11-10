@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ConvertUtils
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.constant.DokitConstant
+import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
@@ -79,25 +79,33 @@ class H5DokitView : AbsDokitView() {
             mBtnReload = it.findViewById(R.id.btn_reload)
             mBtnReload.setOnClickListener {
                 mWebView?.let { webView ->
-                    when (webView) {
-                        is WebView -> {
-                            webView.reload()
+                    if (X5WebViewUtil.hasImpX5WebViewLib()) {
+                        when (webView) {
+                            is WebView -> {
+                                webView.reload()
+                            }
+                            is com.tencent.smtt.sdk.WebView -> {
+                                webView.reload()
+                            }
                         }
-                        is com.tencent.smtt.sdk.WebView -> {
-                            webView.reload()
+                    } else {
+                        when (webView) {
+                            is WebView -> {
+                                webView.reload()
+                            }
                         }
                     }
                 }
             }
-            mJsCheckBox.isChecked = DokitConstant.H5_JS_INJECT
+            mJsCheckBox.isChecked = DoKitConstant.H5_JS_INJECT
             mJsCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                DokitConstant.H5_JS_INJECT = isChecked
+                DoKitConstant.H5_JS_INJECT = isChecked
             }
 
             mVConsoleCheckBox = it.findViewById(R.id.vConsole_switch)
-            mVConsoleCheckBox.isChecked = DokitConstant.H5_VCONSOLE_INJECT
+            mVConsoleCheckBox.isChecked = DoKitConstant.H5_VCONSOLE_INJECT
             mVConsoleCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                DokitConstant.H5_VCONSOLE_INJECT = isChecked
+                DoKitConstant.H5_VCONSOLE_INJECT = isChecked
             }
 
             mNavLocal = it.findViewById(R.id.tv_nav_local)
@@ -177,23 +185,30 @@ class H5DokitView : AbsDokitView() {
             mMoreWrap.visibility = View.GONE
             mBtnReload.visibility = View.GONE
         } else {
-            when (mWebView) {
-                is WebView -> {
-                    mWebView as WebView
-                    mTvLink.text = (mWebView as WebView).url
-                }
+            if (X5WebViewUtil.hasImpX5WebViewLib()) {
+                when (mWebView) {
+                    is WebView -> {
+                        mWebView as WebView
+                        mTvLink.text = (mWebView as WebView).url
+                    }
 
-                is com.tencent.smtt.sdk.WebView -> {
-                    mTvLink.text = (mWebView as com.tencent.smtt.sdk.WebView).url
+                    is com.tencent.smtt.sdk.WebView -> {
+                        mTvLink.text = (mWebView as com.tencent.smtt.sdk.WebView).url
+                    }
+                }
+            } else {
+                when (mWebView) {
+                    is WebView -> {
+                        mWebView as WebView
+                        mTvLink.text = (mWebView as WebView).url
+                    }
                 }
             }
-
-
             mMoreWrap.visibility = View.VISIBLE
             mBtnReload.visibility = View.VISIBLE
         }
-        mJsCheckBox.isChecked = DokitConstant.H5_JS_INJECT
-        mVConsoleCheckBox.isChecked = DokitConstant.H5_VCONSOLE_INJECT
+        mJsCheckBox.isChecked = DoKitConstant.H5_JS_INJECT
+        mVConsoleCheckBox.isChecked = DoKitConstant.H5_VCONSOLE_INJECT
         invalidate()
     }
 
@@ -209,22 +224,39 @@ class H5DokitView : AbsDokitView() {
     private fun performTraverseView(): Any? {
         val decorView = activity.window.decorView as ViewGroup
         decorView.children.forEach {
-            if (it is WebView || it is com.tencent.smtt.sdk.WebView) {
-                return it
-            } else if (it is ViewGroup) {
-                return traversView(it)
+            if (X5WebViewUtil.hasImpX5WebViewLib()) {
+                when (it) {
+                    is WebView -> return it
+                    is com.tencent.smtt.sdk.WebView -> return it
+                    is ViewGroup -> return traversView(it)
+                }
+            } else {
+                when (it) {
+                    is WebView -> return it
+                    is ViewGroup -> return traversView(it)
+                }
             }
+
+
         }
         return null
     }
 
     private fun traversView(viewGroup: ViewGroup): Any? {
         viewGroup.children.forEach {
-            if (it is WebView || it is com.tencent.smtt.sdk.WebView) {
-                return it
-            } else if (it is ViewGroup) {
-                return traversView(it)
+            if (X5WebViewUtil.hasImpX5WebViewLib()) {
+                when (it) {
+                    is WebView -> return it
+                    is com.tencent.smtt.sdk.WebView -> return it
+                    is ViewGroup -> return traversView(it)
+                }
+            } else {
+                when (it) {
+                    is WebView -> return it
+                    is ViewGroup -> return traversView(it)
+                }
             }
+
         }
         return null
     }

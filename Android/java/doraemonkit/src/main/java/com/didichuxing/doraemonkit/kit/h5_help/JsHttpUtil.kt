@@ -5,7 +5,7 @@ import android.webkit.WebResourceResponse
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
-import com.didichuxing.doraemonkit.constant.DokitConstant
+import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
@@ -366,16 +366,22 @@ internal object JsHttpUtil {
     }
 
 
-    fun createOkHttpRequest(requestBean: JsRequestBean): Request {
+    fun createOkHttpRequest(requestBean: JsRequestBean, userAgent: String): Request {
         requestBean.headers?.let {
             if (!it.containsKey("content-type")) {
                 it["content-type"] = "application/json"
+            }
+
+            if (!it.containsKey("User-Agent")) {
+                it["User-Agent"] = userAgent
             }
         }
         val builder = Headers.Builder()
         requestBean.headers?.forEach {
             builder.add(it.key!!, it.value!!)
         }
+
+
         val headers = builder.build()
         return when (requestBean.method?.toUpperCase()) {
             "GET" -> {
@@ -419,10 +425,11 @@ internal object JsHttpUtil {
      * @return bool
      */
     fun matchWhiteHost(request: Request): Boolean {
-        val whiteHostBeans: List<WhiteHostBean> = DokitConstant.WHITE_HOSTS
+        val whiteHostBeans: List<WhiteHostBean> = DoKitConstant.WHITE_HOSTS
         if (whiteHostBeans.isEmpty()) {
             return true
         }
+
         for (whiteHostBean in whiteHostBeans) {
             if (TextUtils.isEmpty(whiteHostBean.host)) {
                 continue
