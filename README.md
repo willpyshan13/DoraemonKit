@@ -1,5 +1,6 @@
 - [简介](#简介)
 - [使用手册](#使用手册)
+- [更新日志](#更新日志)
 - [社区活动](#社区活动)
 - [开发背景](#开发背景)
 - [效果演示](#效果演示)
@@ -12,7 +13,6 @@
   - [六、支持自定义的业务工具集成到面板中](#六支持自定义的业务工具集成到面板中)
   - [七、微信小程序专项工具](#七微信小程序专项工具)
 - [相关文档](#相关文档)
-- [更新日志](#更新日志)
 - [微信交流群](#微信交流群)
 - [QQ 交流群](#qq-交流群)
 - [微信公众号](#微信公众号)
@@ -28,6 +28,7 @@
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
  <img src="https://img.shields.io/badge/Android-3.3.5-blue.svg" align=left />
  <img src="https://img.shields.io/badge/iOS-3.0.4-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/Flutter-0.2.5-blue.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
@@ -45,6 +46,13 @@
 
 ## 使用手册
 访问[DoKit官网](https://www.dokit.cn/)，点击"[使用中心](http://xingyun.xiaojukeji.com/docs/dokit/#/intro)"。
+
+## 更新日志
+
+- [iOS-ReleaseNotes](Doc/iOS-ReleaseNotes.md)
+- [Android-ReleaseNotes](Doc/android-ReleaseNotes.md)
+- [微信小程序-ReleaseNotes](Doc/miniapp-ReleaseNotes.md)
+- [DoKit For Flutter-ReleaseNotes](Flutter/README.md)
 
 ## 社区活动
 
@@ -160,11 +168,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 - [滴滴DoKit Android核心原理揭秘之函数耗时](https://juejin.im/post/5eba5ce15188256d6f268c98)
 - [滴滴DoKit Android核心原理揭秘之AOP字节码实现](https://juejin.im/post/6891887877613944840)
 
-## 更新日志
 
-- [iOS-ReleaseNotes](Doc/iOS-ReleaseNotes.md)
-- [Android-ReleaseNotes](Doc/android-ReleaseNotes.md)
-- [微信小程序-ReleaseNotes](Doc/miniapp-ReleaseNotes.md)
 
 ## 微信交流群
 
@@ -230,13 +234,14 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [jtsky(金台)](https://github.com/jtsky) 
 
 **内部核心成员**
-[yixiangboy](https://github.com/yixiangboy)
+[yixiangboy](https://github.com/yixiangboy)、
 [jtsky](https://github.com/jtsky) 、
+[LinJZong](https://github.com/LinJZong) 、
 [ydlsl](https://github.com/ydlsl) 、
 [jayconscious](https://github.com/jayconscious)
 
 **贡献者榜单**
-[LinJZong](https://github.com/LinJZong) 、
+、
 [wanglikun7342](https://github.com/wanglikun7342) 、
 [wenquanlebao](https://github.com/wenquanlebao) 、
 [hiXgb](https://github.com/hiXgb) 、 
