@@ -5,9 +5,6 @@
 ## 支持flutter版本
 1.17.5<=version<=1.22.4，其余版本未做过兼容性测试
 
-## 最新版本
-**0.2.5**
-
 ## Pub地址
 [DoKit For Flutter](https://pub.dev/packages/dokit)
 
@@ -16,10 +13,10 @@
 
 ```
 dependencies:
-  dokit: 0.2.5
+  dokit: ^0.2.12
 ```
 
-在main函数入口初始化。<font color='red'> DoKit使用runZone的方式进行日志捕获，方法通道的捕获，如果你的app需要使用同样的方式会有冲突 </font>
+在main函数入口初始化。 DoKit使用runZone的方式进行日志捕获，方法通道的捕获，如果你的app需要使用同样的方式会有冲突。
 
 ```
 void main() => {
@@ -39,16 +36,37 @@ void main() => {
       如果在package内去声明这个wrapper，会导致左边树全部被折叠。故这里要求在main文件内使用DoKitApp(MyApp())的方式来初始化入口**
 
 
- 另外提供了一个异步创建入口Widget的方式，需要异步构建widget的情况。<font color='red'> (有些库会在异步构建Widget的时候调用WidgetFlutterBinding.ensureInitialized()，影响DoKit的method channel监控
- 和日志监控，需要延迟到runZone内执行) </font>
+ 另外提供了一个异步创建入口Widget的方式，需要异步构建widget的情况。(有些库会在异步构建Widget的时候调用WidgetFlutterBinding.ensureInitialized()，影响DoKit的method channel监控
+ 和日志监控，需要延迟到runZone内执行)
 ```
 void main() => {
        DoKit.runApp(
              appCreator: () async =>
-                 DoKitApp(await Nacho.ready(designWidth: 750, app: App())));
+                 DoKitApp(await crateApp())));
     };
+
+ Widget crateApp() async{
+   // 一些初始化操作
+   await ...
+   return MyApp();
+ }
 }
 ```
+
+
+### 参数说明
+
+
+参数 | 返回类型 | 说明 | 是否必须
+---|---|---|---
+app | DoKitApp | 返回被DoKitApp类包装的根布局 | app和appCreator至少需要设置一个同时设置时app参数生效
+appCreator | DoKitAppCreator | 异步返回根布局 | 同上
+useInRelease | bool |是否在release模式下显示DoKit | x
+logCallback | LogCallback | 调用print方法打印日志时被回调 | x
+exceptionCallback | ExceptionCallback | 异常回调 | x
+releaseAction | Function | release模式下执行该函数，该值为空则会直接调用系统的runApp |x
+
+
 ## 功能简介
 
 ### 全部组件
