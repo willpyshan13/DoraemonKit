@@ -238,7 +238,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [yixiangboy](https://github.com/yixiangboy)、
 [jtsky](https://github.com/jtsky) 、
 [LinJZong](https://github.com/LinJZong) 、
-[ydlsl](https://github.com/ydlsl) 、
+[changzuozhen](https://github.com/changzuozhen)、
 [jayconscious](https://github.com/jayconscious)
 
 **贡献者榜单**
@@ -270,7 +270,8 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [sagdragon](https://github.com/sagdragon) 、
 [ccworld1000](https://github.com/ccworld1000) 、
 [HDB-Li](https://github.com/HDB-Li)、
-[yu-jianfeng](https://github.com/yu-jianfeng)
+[yu-jianfeng](https://github.com/yu-jianfeng)、
+[ydlsl](https://github.com/ydlsl)
 
 如何成为外部贡献者？ 提交有意义的PR，并被采纳。
 
